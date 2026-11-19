@@ -28,7 +28,8 @@ The following software versions were used:
 
 The preprocessing script additionally requires `pandas`.
 
-kMoL is available at <https://github.com/elix-tech/kmol>. Installation instructions for the conda
+kMoL is available at <https://github.com/elix-tech/kmol>. kMoL itself is not distributed as part of
+this repository and remains subject to its own license. Installation instructions for the conda
 environment and the Docker image are provided in the repository. All kMoL operations are controlled
 by JSON configuration files, and each command is executed as `kmol <job> <configuration file>`.
 
@@ -47,7 +48,7 @@ To apply the model to new compounds, prepare a CSV file containing at least the 
 - `LogM`: log10-transformed EC50 in mol/L. When experimental values are not available, an arbitrary
   placeholder value can be used because kMoL requires the target column during inference.
 
-Place the CSV file in the same directory as `prepare_data.py`.
+Place the CSV file in the same directory as `prepare_data.py` and name it `prediction_data.csv`.
 
 When experimental toxicity data are used to evaluate model performance, we recommend curating the
 data according to the procedures described in the Materials and Methods of the manuscript. In
@@ -72,6 +73,8 @@ python prepare_data.py
 Structures that cannot be standardized should be removed before the file is passed to kMoL.
 
 The standardized SMILES should be provided in the `Smiles` column used for prediction.
+The standardized data are written to `prediction_data_std.csv`, which is used as the input file by
+`predict_config.json`.
 
 ## 3. Model architecture
 
@@ -110,3 +113,10 @@ kmol eval predict_config.json
 The model is intended for screening applications, and predictions should be interpreted with
 appropriate caution for compounds outside the chemical and toxicity ranges represented in the
 training data.
+
+## License
+
+The trained model checkpoint (`checkpoint.pt`) is made available under the
+Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International
+(CC BY-NC-ND 4.0) License:
+https://creativecommons.org/licenses/by-nc-nd/4.0/
